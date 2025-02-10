@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import "../styles/globals.css"; // Import the new CSS file
 
 export default function CustomSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
-  // Temas favoritos para mostrar automáticamente
+  // Favorite topics to display automatically
   const defaultTopics = [
     "Clean Energy Technology",
     "AI Next Steps",
@@ -24,7 +25,7 @@ export default function CustomSearch() {
     }
   };
 
-  // Cargar noticias automáticamente al abrir la página
+  // Load news automatically when opening the page
   useEffect(() => {
     const loadInitialNews = async () => {
       let allArticles = [];
@@ -38,14 +39,14 @@ export default function CustomSearch() {
     loadInitialNews();
   }, []);
 
-  // Función para realizar una búsqueda manual
+  // Function for manual search
   const handleSearch = async () => {
     const articles = await fetchNews(query);
     setResults(articles);
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Custom Search Tool</h1>
       <input
         type="text"
@@ -56,10 +57,10 @@ export default function CustomSearch() {
       <button onClick={handleSearch}>Search</button>
 
       {results.length > 0 && (
-        <div>
-          <h2>News Results:</h2>
+        <div className="news-container">
+          <h2>Latest News:</h2>
           {results.map((article, index) => (
-            <div key={index} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0" }}>
+            <div key={index} className="news-item">
               <h3>
                 <a href={article.url} target="_blank" rel="noopener noreferrer">
                   {article.title}
@@ -68,7 +69,7 @@ export default function CustomSearch() {
               <p><strong>Source:</strong> {article.source?.name || "Unknown"}</p>
               <p>{article.description || "No description available."}</p>
               {article.urlToImage && (
-                <img src={article.urlToImage} alt="Article image" style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }} />
+                <img src={article.urlToImage} alt="Article image" />
               )}
             </div>
           ))}
