@@ -24,6 +24,9 @@ export default function CustomSearch() {
 {results.length > 0 && (
   <div>
     <h2>Search Results:</h2>
+   {results.length > 0 && (
+  <div>
+    <h2>Search Results:</h2>
     {results.map((article, index) => (
       <div key={index} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0" }}>
         <h3>
