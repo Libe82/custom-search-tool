@@ -7,7 +7,7 @@ export default function CustomSearch() {
   const handleSearch = async () => {
     console.log("Search function started!"); // Debug message
 
-    const response = await fetch(`https://newsapi.org/v2/everything?q=${query}&apiKey=7dc72a2cd83d4a95ab72a92cd604b6d7`, {
+    const response = await fetch(`/api/news?query=${query}`);
       method: "GET",
       headers: {
         "Accept": "application/json",
