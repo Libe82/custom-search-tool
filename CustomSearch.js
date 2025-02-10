@@ -33,7 +33,7 @@ export default function CustomSearch() {
         const articles = await fetchNews(topic);
         allArticles = [...allArticles, ...articles];
       }
-      setResults(allArticles.slice(0, 12)); // Limit to 12 articles to avoid clutter
+      setResults(allArticles.slice(0, 12)); // Limit to 12 articles
     };
 
     loadInitialNews();
@@ -74,10 +74,6 @@ export default function CustomSearch() {
           ))}
         </div>
       )}
-    </div>
-  );
-}
-
     </div>
   );
 }
