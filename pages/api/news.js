@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(`https://newsapi.org/v2/everything?q=${query}&apiKey=YOUR_REAL_API_KEY`, {
+    const response = await fetch(`https://newsapi.org/v2/everything?q=${query}&apiKey=7dc72a2cd83d4a95ab72a92cd604b6d7`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
