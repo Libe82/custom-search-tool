@@ -5,8 +5,18 @@ export default function CustomSearch() {
   const [results, setResults] = useState([]);
 
   const handleSearch = async () => {
-    const response = await fetch(`https://newsapi.org/v2/everything?q=${query}&apiKey=YOUR_REAL_API_KEY`);
+    console.log("Search function started!"); // Debug message
+
+    const response = await fetch(`https://newsapi.org/v2/everything?q=${query}&apiKey=YOUR_REAL_API_KEY`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+      }
+    });
+
     const data = await response.json();
+    console.log("API Response:", data); // Debug message
     setResults(data.articles || []);
   };
 
