@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/globals.css"; // Import the new CSS file
+import "../styles/globals.css"; // Import styles
 
 export default function CustomSearch() {
   const [query, setQuery] = useState("");
@@ -33,7 +33,7 @@ export default function CustomSearch() {
         const articles = await fetchNews(topic);
         allArticles = [...allArticles, ...articles];
       }
-      setResults(allArticles);
+      setResults(allArticles.slice(0, 12)); // Limit to 12 articles to avoid clutter
     };
 
     loadInitialNews();
@@ -42,7 +42,7 @@ export default function CustomSearch() {
   // Function for manual search
   const handleSearch = async () => {
     const articles = await fetchNews(query);
-    setResults(articles);
+    setResults(articles.slice(0, 12)); // Limit results
   };
 
   return (
@@ -58,7 +58,7 @@ export default function CustomSearch() {
 
       {results.length > 0 && (
         <div className="news-container">
-          <h2>Latest News:</h2>
+          <h2>News Results:</h2>
           {results.map((article, index) => (
             <div key={index} className="news-item">
               <h3>
@@ -67,7 +67,6 @@ export default function CustomSearch() {
                 </a>
               </h3>
               <p><strong>Source:</strong> {article.source?.name || "Unknown"}</p>
-              <p>{article.description || "No description available."}</p>
               {article.urlToImage && (
                 <img src={article.urlToImage} alt="Article image" />
               )}
@@ -75,6 +74,10 @@ export default function CustomSearch() {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
     </div>
   );
 }
