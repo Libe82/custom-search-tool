@@ -4,6 +4,7 @@ import "../styles/globals.css"; // ✅ Import styles
 export default function CustomSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // ✅ Favorite topics to display automatically
   const defaultTopics = [
@@ -21,16 +22,21 @@ export default function CustomSearch() {
 
   // ✅ Fetch news from API
   const fetchNews = async (searchQuery) => {
+    setIsLoading(true);
     try {
-      console.log("Search function started!");
       const response = await fetch(
         `https://newsapi.org/v2/everything?q=${searchQuery}&apiKey=7dc72a2cd83d4a95ab72a92cd604b6d7`
       );
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
       const data = await response.json();
-      console.log("API Response:", data);
       setResults(data.articles || []);
     } catch (error) {
       console.error("Error fetching news:", error);
+      setResults([]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -60,11 +66,13 @@ export default function CustomSearch() {
 
       {/* ✅ Display News Results */}
       <div className="news-container">
-        {results.length > 0 ? (
-          results.map((article, index) => (
-            <div key={index} className="news-card">
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : results.length > 0 ? (
+          results.map((article) => (
+            <div key={article.url} className="news-card">
               {article.urlToImage && (
-                <img src={article.urlToImage} alt="News" className="news-image" />
+                <img src={article.urlToImage} alt={article.title} className="news-image" />
               )}
               <div className="news-content">
                 <h3>
