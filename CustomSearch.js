@@ -1,20 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function CustomSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
-  const handleSearch = async () => {
-    console.log("Search function started!"); // Debug message
+  // Temas favoritos para mostrar automáticamente
+  const defaultTopics = [
+    "Clean Energy Technology",
+    "AI Next Steps",
+    "Astronomy & Physics Discoveries",
+    "Eco-Friendly Farming Innovations",
+    "Sci-Fi & Hard Fiction News"
+  ];
 
+  const fetchNews = async (searchQuery) => {
     try {
-      const response = await fetch(`/api/news?query=${query}`);
+      const response = await fetch(`/api/news?query=${searchQuery}`);
       const data = await response.json();
-      console.log("API Response:", data); // Debug message
-      setResults(data.articles || []);
+      return data.articles || [];
     } catch (error) {
       console.error("Error fetching news:", error);
+      return [];
     }
+  };
+
+  // Cargar noticias automáticamente al abrir la página
+  useEffect(() => {
+    const loadInitialNews = async () => {
+      let allArticles = [];
+      for (let topic of defaultTopics) {
+        const articles = await fetchNews(topic);
+        allArticles = [...allArticles, ...articles];
+      }
+      setResults(allArticles);
+    };
+
+    loadInitialNews();
+  }, []);
+
+  // Función para realizar una búsqueda manual
+  const handleSearch = async () => {
+    const articles = await fetchNews(query);
+    setResults(articles);
   };
 
   return (
@@ -30,7 +57,7 @@ export default function CustomSearch() {
 
       {results.length > 0 && (
         <div>
-          <h2>Search Results:</h2>
+          <h2>News Results:</h2>
           {results.map((article, index) => (
             <div key={index} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0" }}>
               <h3>
