@@ -7,17 +7,14 @@ export default function CustomSearch() {
   const handleSearch = async () => {
     console.log("Search function started!"); // Debug message
 
-    const response = await fetch(`/api/news?query=${query}`);
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-      }
-    });
-
-    const data = await response.json();
-    console.log("API Response:", data); // Debug message
-    setResults(data.articles || []);
+    try {
+      const response = await fetch(`/api/news?query=${query}`);
+      const data = await response.json();
+      console.log("API Response:", data); // Debug message
+      setResults(data.articles || []);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    }
   };
 
   return (
