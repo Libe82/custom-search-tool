@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "@/styles/globals.css"; // ✅ Import styles
+import "../styles/globals.css"; // ✅ Import styles
 
 export default function CustomSearch() {
   const [query, setQuery] = useState("");
